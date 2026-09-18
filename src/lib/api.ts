@@ -48,6 +48,12 @@ export type Agency = {
   orderCount?: number;
   primary_color: string;
   email?: string | null;
+  whatsapp?: {
+    enabled: boolean;
+    phoneNumberId: string | null;
+    displayPhone: string | null;
+    hasAccessToken: boolean;
+  };
 };
 
 export type Product = {

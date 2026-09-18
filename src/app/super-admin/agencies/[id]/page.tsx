@@ -84,6 +84,23 @@ export default function AgencyDetailPage() {
         </div>
         <Button type="submit">Save</Button>
       </form>
+
+      <section className="mt-10 max-w-xl rounded-xl border p-5">
+        <h2 className="text-lg font-medium">WhatsApp</h2>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Configured by the store owner in their admin settings. Tokens are never shown here.
+        </p>
+        <dl className="mt-4 grid grid-cols-[140px_1fr] gap-y-2 text-sm">
+          <dt className="text-muted-foreground">Status</dt>
+          <dd>{agency.whatsapp?.enabled ? "Enabled" : "Disabled"}</dd>
+          <dt className="text-muted-foreground">Phone number ID</dt>
+          <dd>{agency.whatsapp?.phoneNumberId || "—"}</dd>
+          <dt className="text-muted-foreground">Display phone</dt>
+          <dd>{agency.whatsapp?.displayPhone || "—"}</dd>
+          <dt className="text-muted-foreground">Access token</dt>
+          <dd>{agency.whatsapp?.hasAccessToken ? "Stored (encrypted)" : "Not set"}</dd>
+        </dl>
+      </section>
     </SuperShell>
   );
 }
