@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { BarChart3, Building2, LayoutDashboard, LogOut, Package } from "lucide-react";
+import { BarChart3, Building2, Heart, LayoutDashboard, LogOut, Package } from "lucide-react";
 import { clearToken, getToken } from "@/lib/api";
 import { cn } from "@/lib/utils";
 
@@ -11,6 +11,7 @@ const links = [
   { href: "/super-admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/super-admin/analytics", label: "Analytics", icon: BarChart3 },
   { href: "/super-admin/products", label: "Products", icon: Package },
+  { href: "/super-admin/comments", label: "Comments", icon: Heart },
   { href: "/super-admin/agencies", label: "Agencies", icon: Building2 },
 ];
 

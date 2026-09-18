@@ -9,8 +9,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Product, api } from "@/lib/api";
+import { Product, ProductEngagement, api } from "@/lib/api";
 import { asStringArray } from "@/lib/utils";
+import { CommentThread } from "@/components/comments/comment-thread";
 
 export default function EditProductPage() {
   const params = useParams<{ id: string }>();
@@ -27,6 +28,13 @@ export default function EditProductPage() {
   const [threshold, setThreshold] = useState("5");
   const [status, setStatus] = useState<"draft" | "published">("published");
   const [images, setImages] = useState<string[]>([]);
+  const [engagement, setEngagement] = useState<ProductEngagement | null>(null);
+
+  function loadEngagement() {
+    api<{ engagement: ProductEngagement }>(`/api/engagement/products/${params.id}`)
+      .then((data) => setEngagement(data.engagement))
+      .catch(() => undefined);
+  }
 
   useEffect(() => {
     api<{ product: Product }>(`/api/products/${params.id}`)
@@ -41,6 +49,7 @@ export default function EditProductPage() {
         setThreshold(String(product.low_stock_threshold ?? 5));
         setStatus(product.status);
         setImages(asStringArray(product.images));
+        loadEngagement();
       })
       .catch((error) => toast.error(error.message))
       .finally(() => setLoading(false));
@@ -204,6 +213,17 @@ export default function EditProductPage() {
           </Button>
         </div>
       </div>
+      {engagement && (
+        <div className="mt-8 max-w-2xl space-y-4 rounded-2xl border bg-card p-6">
+          <div>
+            <h2 className="text-xl font-medium">Likes & comments</h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              {engagement.likeCount} likes · {engagement.commentCount} comments
+            </p>
+          </div>
+          <CommentThread comments={engagement.comments} onDeleted={loadEngagement} />
+        </div>
+      )}
     </SuperShell>
   );
 }

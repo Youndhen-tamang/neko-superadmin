@@ -70,6 +70,34 @@ export type Product = {
   stock: number;
   low_stock_threshold?: number;
   status: "draft" | "published";
+  like_count?: number;
+  comment_count?: number;
+};
+
+export type ProductComment = {
+  id: string;
+  parent_id: string | null;
+  author_name: string;
+  body: string;
+  created_at: string;
+  invoice_number?: string;
+  session_id?: string;
+  product_id?: string;
+  product_name?: string;
+  agency_id?: string;
+  agency_name?: string;
+  agency_slug?: string;
+  replies: ProductComment[];
+};
+
+export type ProductEngagement = {
+  likeCount: number;
+  commentCount: number;
+  liked?: boolean;
+  remainingComments?: number;
+  comments: ProductComment[];
+  productId?: string;
+  productName?: string;
 };
 
 export type Analytics = {

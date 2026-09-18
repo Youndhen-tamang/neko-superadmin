@@ -11,6 +11,8 @@ type Stats = {
   agencyCount: number;
   orderCount: number;
   revenueCents: number;
+  likeCount?: number;
+  commentCount?: number;
   recentAgencies: Agency[];
 };
 
@@ -30,15 +32,17 @@ export default function SuperAdminDashboardPage() {
           <h1 className="text-3xl font-medium">Dashboard</h1>
           <p className="mt-2 text-muted-foreground">Create agencies, then open each storefront as a branded shop.</p>
         </div>
-        <Link href="/super-admin/analytics" className="text-sm text-primary">
-          Open analytics
+        <Link href="/super-admin/comments" className="text-sm text-primary">
+          Open comments
         </Link>
       </div>
-      <div className="mt-8 grid gap-4 md:grid-cols-3">
+      <div className="mt-8 grid gap-4 md:grid-cols-5">
         {[
           ["Agencies", stats?.agencyCount ?? 0],
           ["Orders", stats?.orderCount ?? 0],
           ["Platform revenue", money(stats?.revenueCents ?? 0)],
+          ["Likes", stats?.likeCount ?? 0],
+          ["Comments", stats?.commentCount ?? 0],
         ].map(([label, value]) => (
           <Card key={String(label)} className="p-5">
             <p className="text-sm text-muted-foreground">{label}</p>

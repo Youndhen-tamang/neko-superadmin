@@ -115,6 +115,8 @@ function ProductsPageInner() {
               <TableHead>Category</TableHead>
               <TableHead>Price</TableHead>
               <TableHead>Stock</TableHead>
+              <TableHead>Likes</TableHead>
+              <TableHead>Comments</TableHead>
               <TableHead>Status</TableHead>
               <TableHead />
             </TableRow>
@@ -122,14 +124,14 @@ function ProductsPageInner() {
           <TableBody>
             {loading && (
               <TableRow>
-                <TableCell colSpan={7} className="text-muted-foreground">
+                <TableCell colSpan={9} className="text-muted-foreground">
                   Loading products...
                 </TableCell>
               </TableRow>
             )}
             {!loading && products.length === 0 && (
               <TableRow>
-                <TableCell colSpan={7} className="text-muted-foreground">
+                <TableCell colSpan={9} className="text-muted-foreground">
                   No products match these filters.
                 </TableCell>
               </TableRow>
@@ -149,6 +151,8 @@ function ProductsPageInner() {
                 <TableCell>{product.category || "—"}</TableCell>
                 <TableCell>{money(product.price_cents)}</TableCell>
                 <TableCell>{product.stock}</TableCell>
+                <TableCell>{product.like_count ?? 0}</TableCell>
+                <TableCell>{product.comment_count ?? 0}</TableCell>
                 <TableCell>
                   <Badge>{product.status}</Badge>
                 </TableCell>
