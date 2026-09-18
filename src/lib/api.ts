@@ -1,6 +1,10 @@
 export const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 const TOKEN_KEY = "super_admin_token";
 
+if (process.env.NODE_ENV === "production" && !process.env.NEXT_PUBLIC_API_URL) {
+  console.error("NEXT_PUBLIC_API_URL is not set; the super-admin is calling http://localhost:4000 in production.");
+}
+
 export function getToken() {
   if (typeof window === "undefined") return "";
   return localStorage.getItem(TOKEN_KEY) || "";
@@ -31,10 +35,20 @@ export async function api<T>(path: string, options: RequestInit & { slug?: strin
   return data as T;
 }
 
+/**
+ * Absolute URL of a tenant's storefront.
+ * Development: http://{slug}.localhost:{NEXT_PUBLIC_STORE_PORT || 3000}
+ * Production:  https://{slug}.{NEXT_PUBLIC_STORE_HOST}, port only when explicitly set.
+ */
 export function storefrontUrl(slug: string) {
-  const host = process.env.NEXT_PUBLIC_STORE_HOST || "localhost";
-  const port = process.env.NEXT_PUBLIC_STORE_PORT || "3000";
-  return `http://${slug}.${host}:${port}`;
+  const host = (process.env.NEXT_PUBLIC_STORE_HOST || "localhost").toLowerCase().trim();
+  const port = (process.env.NEXT_PUBLIC_STORE_PORT || "").trim();
+
+  if (host === "localhost" || host === "127.0.0.1" || host.endsWith(".localhost")) {
+    return `http://${slug}.localhost:${port || "3000"}`;
+  }
+
+  return `https://${slug}.${host}${port ? `:${port}` : ""}`;
 }
 
 export type Agency = {
