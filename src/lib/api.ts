@@ -14,15 +14,18 @@ export function clearToken() {
   localStorage.removeItem(TOKEN_KEY);
 }
 
-export async function api<T>(path: string, options: RequestInit = {}): Promise<T> {
+export async function api<T>(path: string, options: RequestInit & { slug?: string } = {}): Promise<T> {
+  const { slug, headers, ...rest } = options;
   const res = await fetch(`${API_URL}${path}`, {
-    ...options,
+    ...rest,
     headers: {
-      "Content-Type": "application/json",
+      ...(rest.body instanceof FormData ? {} : { "Content-Type": "application/json" }),
+      ...(slug ? { "X-Agency-Slug": slug } : {}),
       ...(getToken() ? { Authorization: `Bearer ${getToken()}` } : {}),
-      ...options.headers,
+      ...headers,
     },
   });
+  if (res.status === 204) return undefined as T;
   const data = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(data.error || "Request failed");
   return data as T;
@@ -45,4 +48,43 @@ export type Agency = {
   orderCount?: number;
   primary_color: string;
   email?: string | null;
+};
+
+export type Product = {
+  id: string;
+  agency_id?: string;
+  agency_name?: string;
+  agency_slug?: string;
+  name: string;
+  description: string | null;
+  category: string | null;
+  tags: string[] | string;
+  images: string[] | string;
+  price_cents: number;
+  stock: number;
+  low_stock_threshold?: number;
+  status: "draft" | "published";
+};
+
+export type Analytics = {
+  range: { from: string; to: string };
+  summary: {
+    orderCount: number;
+    paidOrderCount: number;
+    revenueCents: number;
+    unitsSold: number;
+    avgOrderCents: number;
+  };
+  inventory: {
+    total: number;
+    published: number;
+    draft: number;
+    lowStock: number;
+    categories: string[];
+  };
+  revenueByDay: { date: string; orderCount: number; revenueCents: number }[];
+  ordersByStatus: { status: string; count: number; revenueCents: number }[];
+  topProducts: { productId: string | null; name: string; quantity: number; revenueCents: number }[];
+  byCategory: { category: string; quantity: number; revenueCents: number }[];
+  byAgency: { agencyId: string; name: string; slug: string; orderCount: number; revenueCents: number }[];
 };

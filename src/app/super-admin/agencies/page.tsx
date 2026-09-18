@@ -40,6 +40,9 @@ export default function AgenciesPage() {
                 </a>
               </Button>
               <Button variant="outline" asChild>
+                <Link href={`/super-admin/products?agencyId=${agency.id}`}>Products</Link>
+              </Button>
+              <Button variant="outline" asChild>
                 <Link href={`/super-admin/agencies/${agency.id}`}>Manage</Link>
               </Button>
             </div>

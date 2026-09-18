@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -32,11 +33,16 @@ export default function AgencyDetailPage() {
           <h1 className="text-3xl font-medium">{agency.name}</h1>
           <p className="mt-1 text-muted-foreground">/{agency.slug}</p>
         </div>
-        <Button asChild variant="outline">
-          <a href={storefrontUrl(agency.slug)} target="_blank" rel="noreferrer">
-            Open storefront
-          </a>
-        </Button>
+        <div className="flex gap-2">
+          <Button asChild variant="outline">
+            <Link href={`/super-admin/products?agencyId=${agency.id}`}>Products</Link>
+          </Button>
+          <Button asChild variant="outline">
+            <a href={storefrontUrl(agency.slug)} target="_blank" rel="noreferrer">
+              Open storefront
+            </a>
+          </Button>
+        </div>
       </div>
       <form
         className="mt-8 max-w-xl space-y-4"

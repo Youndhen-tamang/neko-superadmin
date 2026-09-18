@@ -3,14 +3,20 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { Building2, LayoutDashboard, LogOut } from "lucide-react";
+import { BarChart3, Building2, LayoutDashboard, LogOut, Package } from "lucide-react";
 import { clearToken, getToken } from "@/lib/api";
 import { cn } from "@/lib/utils";
 
 const links = [
   { href: "/super-admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/super-admin/analytics", label: "Analytics", icon: BarChart3 },
+  { href: "/super-admin/products", label: "Products", icon: Package },
   { href: "/super-admin/agencies", label: "Agencies", icon: Building2 },
 ];
+
+function isActive(pathname: string, href: string) {
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
 
 export function SuperShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -34,7 +40,7 @@ export function SuperShell({ children }: { children: React.ReactNode }) {
               href={link.href}
               className={cn(
                 "flex items-center gap-2 rounded-md px-3 py-2 text-sm",
-                pathname === link.href ? "bg-primary text-primary-foreground" : "hover:bg-muted"
+                isActive(pathname, link.href) ? "bg-primary text-primary-foreground" : "hover:bg-muted"
               )}
             >
               <link.icon className="h-4 w-4" />

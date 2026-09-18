@@ -25,8 +25,15 @@ export default function SuperAdminDashboardPage() {
 
   return (
     <SuperShell>
-      <h1 className="text-3xl font-medium">Dashboard</h1>
-      <p className="mt-2 text-muted-foreground">Create agencies, then open each storefront as a branded shop.</p>
+      <div className="flex items-end justify-between gap-3">
+        <div>
+          <h1 className="text-3xl font-medium">Dashboard</h1>
+          <p className="mt-2 text-muted-foreground">Create agencies, then open each storefront as a branded shop.</p>
+        </div>
+        <Link href="/super-admin/analytics" className="text-sm text-primary">
+          Open analytics
+        </Link>
+      </div>
       <div className="mt-8 grid gap-4 md:grid-cols-3">
         {[
           ["Agencies", stats?.agencyCount ?? 0],
