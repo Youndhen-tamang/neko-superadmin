@@ -1,11 +1,13 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { PasswordInput } from "@/components/ui/password-input";
 import { api, setToken } from "@/lib/api";
 
 export default function SuperAdminLoginPage() {
@@ -43,12 +45,18 @@ export default function SuperAdminLoginPage() {
         </div>
         <div className="space-y-2">
           <Label>Password</Label>
-          <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <PasswordInput value={password} onChange={(e) => setPassword(e.target.value)} required />
         </div>
         <Button className="w-full" type="submit" disabled={loading}>
           {loading ? "Signing in..." : "Enter dashboard"}
         </Button>
       </form>
+      <p className="mt-6 text-center text-sm text-muted-foreground">
+        Need an agency?{" "}
+        <Link href="/request" className="text-primary hover:underline">
+          Request to register
+        </Link>
+      </p>
     </div>
   );
 }

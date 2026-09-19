@@ -8,6 +8,7 @@ import { SuperShell } from "@/components/layout/super-shell";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { PageLoader, Skeleton } from "@/components/ui/page-loader";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Agency, Product, api } from "@/lib/api";
 import { money } from "@/lib/utils";
@@ -122,13 +123,14 @@ function ProductsPageInner() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {loading && (
-              <TableRow>
-                <TableCell colSpan={9} className="text-muted-foreground">
-                  Loading products...
-                </TableCell>
-              </TableRow>
-            )}
+            {loading &&
+              Array.from({ length: 4 }).map((_, index) => (
+                <TableRow key={index}>
+                  <TableCell colSpan={9}>
+                    <Skeleton className="h-8 w-full" />
+                  </TableCell>
+                </TableRow>
+              ))}
             {!loading && products.length === 0 && (
               <TableRow>
                 <TableCell colSpan={9} className="text-muted-foreground">
@@ -193,7 +195,7 @@ export default function ProductsPage() {
     <Suspense
       fallback={
         <SuperShell>
-          <p>Loading products...</p>
+          <PageLoader label="Loading products" />
         </SuperShell>
       }
     >

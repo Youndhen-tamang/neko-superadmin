@@ -8,6 +8,7 @@ import { SuperShell } from "@/components/layout/super-shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { PageLoader } from "@/components/ui/page-loader";
 import { Textarea } from "@/components/ui/textarea";
 import { Product, ProductEngagement, api } from "@/lib/api";
 import { asStringArray } from "@/lib/utils";
@@ -103,14 +104,14 @@ export default function EditProductPage() {
   if (loading) {
     return (
       <SuperShell>
-        <p>Loading product...</p>
+        <PageLoader label="Loading product" />
       </SuperShell>
     );
   }
 
   return (
     <SuperShell>
-      <div className="flex items-start justify-between gap-3">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <h1 className="text-3xl font-medium">Edit product</h1>
           <p className="mt-1 text-sm text-muted-foreground">
@@ -142,7 +143,7 @@ export default function EditProductPage() {
         </div>
         <div className="grid gap-4 sm:grid-cols-3">
           <div className="space-y-2">
-            <Label>Price (USD)</Label>
+            <Label>Price (NPR)</Label>
             <Input type="number" min="0" step="0.01" value={price} onChange={(e) => setPrice(e.target.value)} />
           </div>
           <div className="space-y-2">

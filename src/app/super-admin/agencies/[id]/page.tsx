@@ -8,6 +8,7 @@ import { SuperShell } from "@/components/layout/super-shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { PageLoader } from "@/components/ui/page-loader";
 import { Agency, api, storefrontUrl } from "@/lib/api";
 
 export default function AgencyDetailPage() {
@@ -21,19 +22,19 @@ export default function AgencyDetailPage() {
   if (!agency) {
     return (
       <SuperShell>
-        <p>Loading agency...</p>
+        <PageLoader label="Loading agency" />
       </SuperShell>
     );
   }
 
   return (
     <SuperShell>
-      <div className="flex items-start justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <h1 className="text-3xl font-medium">{agency.name}</h1>
           <p className="mt-1 text-muted-foreground">/{agency.slug}</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <Button asChild variant="outline">
             <Link href={`/super-admin/products?agencyId=${agency.id}`}>Products</Link>
           </Button>

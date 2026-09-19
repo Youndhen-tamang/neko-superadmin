@@ -6,6 +6,7 @@ import { SuperShell } from "@/components/layout/super-shell";
 import { CommentThread } from "@/components/comments/comment-thread";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { PageLoader } from "@/components/ui/page-loader";
 import { Agency, ProductComment, api } from "@/lib/api";
 
 export default function CommentsPage() {
@@ -78,7 +79,7 @@ export default function CommentsPage() {
       </form>
       <div className="mt-6">
         {loading ? (
-          <p className="text-sm text-muted-foreground">Loading comments...</p>
+          <PageLoader label="Loading comments" />
         ) : (
           <CommentThread comments={comments} onDeleted={() => load()} showProduct showAgency />
         )}

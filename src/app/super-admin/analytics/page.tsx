@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { SuperShell } from "@/components/layout/super-shell";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { PageLoader } from "@/components/ui/page-loader";
 import { Agency, Analytics, api } from "@/lib/api";
 import { money } from "@/lib/utils";
 
@@ -138,10 +139,10 @@ export default function SuperAnalyticsPage() {
         ))}
       </div>
       {loading && !analytics ? (
-        <p className="mt-8 text-muted-foreground">Loading analytics...</p>
+        <PageLoader label="Loading analytics" />
       ) : (
         <>
-          <div className="mt-8 grid gap-4 md:grid-cols-5">
+          <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
             {[
               ["Revenue", money(analytics?.summary.revenueCents ?? 0)],
               ["Orders", analytics?.summary.orderCount ?? 0],
@@ -155,7 +156,7 @@ export default function SuperAnalyticsPage() {
               </Card>
             ))}
           </div>
-          <div className="mt-4 grid gap-4 md:grid-cols-4">
+          <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4">
             {[
               ["Catalog", analytics?.inventory.total ?? 0],
               ["Published", analytics?.inventory.published ?? 0],

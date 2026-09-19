@@ -6,7 +6,17 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function money(cents: number) {
-  return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format((cents || 0) / 100);
+  return new Intl.NumberFormat("en-NP", { style: "currency", currency: "NPR" }).format((cents || 0) / 100);
+}
+
+export function slugify(value: string) {
+  return value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
 }
 
 export function asStringArray(value: unknown): string[] {

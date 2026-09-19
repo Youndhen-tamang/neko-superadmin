@@ -14,6 +14,21 @@ export function clearToken() {
   localStorage.removeItem(TOKEN_KEY);
 }
 
+export async function appApi<T>(path: string, options: RequestInit = {}): Promise<T> {
+  const res = await fetch(path, {
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...(getToken() ? { Authorization: `Bearer ${getToken()}` } : {}),
+      ...options.headers,
+    },
+  });
+  if (res.status === 204) return undefined as T;
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error((data as { error?: string }).error || "Request failed");
+  return data as T;
+}
+
 export async function api<T>(path: string, options: RequestInit & { slug?: string } = {}): Promise<T> {
   const { slug, headers, ...rest } = options;
   const res = await fetch(`${API_URL}${path}`, {
