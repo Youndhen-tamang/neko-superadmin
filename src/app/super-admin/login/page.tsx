@@ -51,10 +51,7 @@ export default function SuperAdminLoginPage() {
         </Button>
       </form>
       <p className="mt-6 text-center text-sm text-muted-foreground">
-        Need an agency?{" "}
-        <a href={tenantRequestUrl()} className="text-primary hover:underline">
-          Request to register
-        </a>
+       Only for super admin access
       </p>
     </div>
   );
