@@ -7,7 +7,7 @@ import { SuperShell } from "@/components/layout/super-shell";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { PageLoader } from "@/components/ui/page-loader";
-import { api } from "@/lib/api";
+import { api, tenantRequestUrl } from "@/lib/api";
 import type { TenantRequest, TenantRequestStatus } from "@/lib/tenant-requests";
 
 export default function TenantRequestsPage() {
@@ -51,7 +51,7 @@ export default function TenantRequestsPage() {
         <Button
           variant="outline"
           onClick={async () => {
-            await navigator.clipboard.writeText(`${window.location.origin}/request`);
+            await navigator.clipboard.writeText(tenantRequestUrl());
             toast.success("Public request form link copied");
           }}
         >

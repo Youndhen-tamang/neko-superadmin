@@ -7,7 +7,7 @@ import { SuperShell } from "@/components/layout/super-shell";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { DashboardSkeleton } from "@/components/ui/page-loader";
-import { Agency, api } from "@/lib/api";
+import { Agency, api, tenantRequestUrl } from "@/lib/api";
 import type { TenantRequest } from "@/lib/tenant-requests";
 import { money } from "@/lib/utils";
 
@@ -85,7 +85,7 @@ export default function SuperAdminDashboardPage() {
                   type="button"
                   className="text-sm text-primary"
                   onClick={async () => {
-                    await navigator.clipboard.writeText(`${window.location.origin}/request`);
+                    await navigator.clipboard.writeText(tenantRequestUrl());
                     toast.success("Public request form link copied");
                   }}
                 >
@@ -100,9 +100,9 @@ export default function SuperAdminDashboardPage() {
               {requests.length === 0 ? (
                 <p className="rounded-xl border bg-card p-4 text-sm text-muted-foreground">
                   No pending tenant requests. Share the public form at{" "}
-                  <Link href="/request" className="text-primary">
-                    /request
-                  </Link>
+                  <a href={tenantRequestUrl()} className="text-primary" target="_blank" rel="noreferrer">
+                    {tenantRequestUrl()}
+                  </a>
                   .
                 </p>
               ) : (

@@ -36,6 +36,26 @@ export async function api<T>(path: string, options: RequestInit & { slug?: strin
 }
 
 /**
+ * Apex storefront origin (no tenant slug).
+ * Development: http://localhost:{NEXT_PUBLIC_STORE_PORT || 3000}
+ * Production:  https://{NEXT_PUBLIC_STORE_HOST}
+ */
+export function storefrontOrigin() {
+  const host = (process.env.NEXT_PUBLIC_STORE_HOST || "localhost").toLowerCase().trim();
+  const port = (process.env.NEXT_PUBLIC_STORE_PORT || "").trim();
+
+  if (host === "localhost" || host === "127.0.0.1" || host.endsWith(".localhost")) {
+    return `http://localhost:${port || "3000"}`;
+  }
+
+  return `https://${host}${port ? `:${port}` : ""}`;
+}
+
+export function tenantRequestUrl() {
+  return `${storefrontOrigin()}/request`;
+}
+
+/**
  * Absolute URL of a tenant's storefront.
  * Development: http://{slug}.localhost:{NEXT_PUBLIC_STORE_PORT || 3000}
  * Production:  https://{slug}.{NEXT_PUBLIC_STORE_HOST}, port only when explicitly set.

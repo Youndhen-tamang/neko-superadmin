@@ -9,16 +9,6 @@ export function money(cents: number) {
   return new Intl.NumberFormat("en-NP", { style: "currency", currency: "NPR" }).format((cents || 0) / 100);
 }
 
-export function slugify(value: string) {
-  return value
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9\s-]/g, "")
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-")
-    .replace(/^-|-$/g, "");
-}
-
 export function asStringArray(value: unknown): string[] {
   if (Array.isArray(value)) return value.filter((item) => typeof item === "string");
   if (typeof value === "string") {
