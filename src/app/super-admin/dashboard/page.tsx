@@ -7,7 +7,7 @@ import { SuperShell } from "@/components/layout/super-shell";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { DashboardSkeleton } from "@/components/ui/page-loader";
-import { Agency, api, appApi } from "@/lib/api";
+import { Agency, api } from "@/lib/api";
 import type { TenantRequest } from "@/lib/tenant-requests";
 import { money } from "@/lib/utils";
 
@@ -33,7 +33,7 @@ export default function SuperAdminDashboardPage() {
           if (active) setStats(data.stats);
         })
         .catch(() => toast.error("Could not load dashboard")),
-      appApi<{ requests: TenantRequest[] }>("/api/tenant-requests")
+      api<{ requests: TenantRequest[] }>("/api/tenant-requests")
         .then((data) => {
           if (active) setRequests(data.requests.filter((item) => item.status === "pending"));
         })

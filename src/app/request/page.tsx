@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { api } from "@/lib/api";
 import { slugify } from "@/lib/utils";
 
 const emptyForm = {
@@ -61,9 +62,8 @@ export default function TenantRequestPage() {
           e.preventDefault();
           setLoading(true);
           try {
-            const res = await fetch("/api/tenant-requests", {
+            await api("/api/tenant-requests", {
               method: "POST",
-              headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
                 ...form,
                 slug: slugify(form.slug || form.name),
@@ -71,8 +71,6 @@ export default function TenantRequestPage() {
                 email: form.email || form.adminEmail,
               }),
             });
-            const data = await res.json().catch(() => ({}));
-            if (!res.ok) throw new Error(data.error || "Could not submit request");
             setSubmitted(true);
           } catch (error) {
             toast.error(error instanceof Error ? error.message : "Could not submit request");

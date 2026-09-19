@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PageLoader } from "@/components/ui/page-loader";
 import { PasswordInput } from "@/components/ui/password-input";
-import { api, appApi } from "@/lib/api";
+import { api } from "@/lib/api";
 import type { TenantRequest } from "@/lib/tenant-requests";
 
 const emptyForm = {
@@ -54,7 +54,7 @@ function NewAgencyForm() {
 
   useEffect(() => {
     if (!requestId) return;
-    appApi<{ request: TenantRequest }>(`/api/tenant-requests/${requestId}`)
+    api<{ request: TenantRequest }>(`/api/tenant-requests/${requestId}`)
       .then(({ request }) => {
         setSourceRequest(request);
         setForm((current) => ({
@@ -98,7 +98,7 @@ function NewAgencyForm() {
               body: JSON.stringify(form),
             });
             if (requestId) {
-              await appApi(`/api/tenant-requests/${requestId}`, {
+              await api(`/api/tenant-requests/${requestId}`, {
                 method: "PATCH",
                 body: JSON.stringify({ status: "approved" }),
               }).catch(() => undefined);

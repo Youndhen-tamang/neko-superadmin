@@ -7,7 +7,7 @@ import { SuperShell } from "@/components/layout/super-shell";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { PageLoader } from "@/components/ui/page-loader";
-import { appApi } from "@/lib/api";
+import { api } from "@/lib/api";
 import type { TenantRequest, TenantRequestStatus } from "@/lib/tenant-requests";
 
 export default function TenantRequestsPage() {
@@ -16,7 +16,7 @@ export default function TenantRequestsPage() {
 
   function load() {
     setLoading(true);
-    appApi<{ requests: TenantRequest[] }>("/api/tenant-requests")
+    api<{ requests: TenantRequest[] }>("/api/tenant-requests")
       .then((data) => setRequests(data.requests))
       .catch((error) => toast.error(error.message))
       .finally(() => setLoading(false));
@@ -28,7 +28,7 @@ export default function TenantRequestsPage() {
 
   async function setStatus(id: string, status: TenantRequestStatus) {
     try {
-      await appApi(`/api/tenant-requests/${id}`, {
+      await api(`/api/tenant-requests/${id}`, {
         method: "PATCH",
         body: JSON.stringify({ status }),
       });
